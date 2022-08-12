@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: csweb-{{ default "staging" .Release.Namespace }}
+  namespace: {{ default "staging" .Release.Namespace }}
+  labels:
+    app: csweb-{{ default "staging" .Release.Namespace }}
+  annotations: 
+    "builddate": "20220812-01"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csweb-{{ default "staging" .Release.Namespace }}
+  template:
+    metadata:
+      labels:
+        app: csweb-{{ default "staging" .Release.Namespace }}
+        {{ if ne .Release.Namespace "production" }}name: csweb-{{ .Release.Namespace }}{{- else }}hostname: csweb{{- end }}
+    spec:
+      {{ if ne .Release.Namespace "production" }}hostname: csweb-{{ .Release.Namespace }}{{- else }}hostname: csweb{{- end }} 
+      dnsPolicy: Default
+      dnsConfig:
+        searches:
+          - cs.calvin.edu
+      containers:
+      - name: csweb-{{ default "staging" .Release.Namespace }}
+        image: {{ .Values.image.registry }}/{{ .Values.image.name }}:{{ default "latest" .Values.image.tag }}
+        ports:
+        - containerPort: 22
+        volumeMounts:
+        - mountPath: /home
+          name: mount0
+        - mountPath: /var/www/alice
+          name: mount1
+        - mountPath: /var/www/dahl
+          name: mount2
+        - mountPath: /var/www/csweb
+          name: mount3
+      volumes:
+      - name: mount0
+        nfs:
+          path: /export/home
+          server: aznfs-int.cs.calvin.edu
+      - name: mount1
+        nfs:
+          path: /export/csweb/alice
+          server: aznfs-int.cs.calvin.edu
+      - name: mount2
+        nfs:
+          path: /export/csweb/dahl
+          server: aznfs-int.cs.calvin.edu
+      - name: mount3
+        nfs:
+          path: /export/csweb/html
+          server: aznfs-int.cs.calvin.edu
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: csweb-{{ default "staging" .Release.Namespace }}
+  namespace: {{ default "staging" .Release.Namespace }}
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: csweb{{- if ne .Release.Namespace "production" }}-{{ default "staging" .Release.Namespace }}{{- end }}.{{ .Values.dns.name }}
+    service.beta.kubernetes.io/azure-dns-label-name: calvincs-csweb{{- if ne .Release.Namespace "production" }}-{{ default "staging" .Release.Namespace }}{{- end }}
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 22
+    targetPort: 22
+    name: ssh
+    protocol: TCP
+  selector:
+    app: csweb-{{ default "staging" .Release.Namespace }}
