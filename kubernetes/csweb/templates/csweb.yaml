@@ -31,12 +31,8 @@ spec:
         volumeMounts:
         - mountPath: /home
           name: mount0
-        - mountPath: /var/www/alice
+        - mountPath: /var/www
           name: mount1
-        - mountPath: /var/www/dahl
-          name: mount2
-        - mountPath: /var/www/csweb
-          name: mount3
       volumes:
       - name: mount0
         nfs:
@@ -44,16 +40,8 @@ spec:
           server: aznfs-int.cs.calvin.edu
       - name: mount1
         nfs:
-          path: /calvincsaks/csweb/alice
-          server: calvincsask.file.core.windows.net
-      - name: mount2
-        nfs:
-          path: /calvincsaks/csweb/dahl
-          server: calvincsask.file.core.windows.net
-      - name: mount3
-        nfs:
-          path: /calvincsaks/csweb/html
-          server: calvincsask.file.core.windows.net
+          path: /calvincsaks/csweb
+          server: calvincsaks.file.core.windows.net
 ---
 apiVersion: v1
 kind: Service
