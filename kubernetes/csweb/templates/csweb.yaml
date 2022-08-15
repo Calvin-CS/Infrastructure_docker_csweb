@@ -6,7 +6,7 @@ metadata:
   labels:
     app: csweb-{{ default "staging" .Release.Namespace }}
   annotations: 
-    "builddate": "20220812-01"
+    "builddate": "20220815-01"
 spec:
   replicas: 1
   selector:
@@ -44,16 +44,16 @@ spec:
           server: aznfs-int.cs.calvin.edu
       - name: mount1
         nfs:
-          path: /export/csweb/alice
-          server: aznfs-int.cs.calvin.edu
+          path: /calvincsaks/csweb/alice
+          server: calvincsask.file.core.windows.net
       - name: mount2
         nfs:
-          path: /export/csweb/dahl
-          server: aznfs-int.cs.calvin.edu
+          path: /calvincsaks/csweb/dahl
+          server: calvincsask.file.core.windows.net
       - name: mount3
         nfs:
-          path: /export/csweb/html
-          server: aznfs-int.cs.calvin.edu
+          path: /calvincsaks/csweb/html
+          server: calvincsask.file.core.windows.net
 ---
 apiVersion: v1
 kind: Service
