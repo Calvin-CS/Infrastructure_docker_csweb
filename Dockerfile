@@ -144,8 +144,8 @@ RUN mkdir -p /run/sshd && \
     chmod 0755 /run/sshd
 
 # Mount points and symlinks
-RUN mkdir -p /var/www/
-    chmod 0755 /var/www
+RUN mkdir -p /var/www/ && \
+    chmod 0755 /var/www && \
     ln -s /var/www/html /webroot
 
 # MOTD update
