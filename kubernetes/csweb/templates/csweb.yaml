@@ -8,7 +8,7 @@ metadata:
   annotations: 
     "builddate": "20220815-01"
 spec:
-  replicas: {{ if ne .Release.Namespace "production" }}replicas: 1{{- else }}replicas: 2{{- end }}
+  {{ if ne .Release.Namespace "production" }}replicas: 1{{- else }}replicas: 2{{- end }}
   selector:
     matchLabels:
       app: csweb-{{ default "staging" .Release.Namespace }}
