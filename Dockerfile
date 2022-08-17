@@ -156,6 +156,9 @@ RUN rm -f /etc/update-motd.d/10-help-text \
     echo "" > /etc/legal && \
     /usr/sbin/update-motd
 
+# umask updates
+COPY --chmod=0644 inc/login.defs /etc/login.defs
+
 # Expose the service
 EXPOSE 22/tcp
 
