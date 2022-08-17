@@ -144,11 +144,9 @@ RUN mkdir -p /run/sshd && \
     chmod 0755 /run/sshd
 
 # Mount points and symlinks
-RUN mkdir -p /var/www/{csweb,alice,dahl} && \
-    chmod 0755 /var/www/csweb && \
-    chmod 0755 /var/www/alice && \
-    chmod 0755 /var/www/dahl && \
-    ln -s /var/www/csweb /webroot
+RUN mkdir -p /var/www/
+    chmod 0755 /var/www
+    ln -s /var/www/html /webroot
 
 # MOTD update
 COPY --chmod=0755 inc/motd /etc/update-motd.d/05-cs-info
