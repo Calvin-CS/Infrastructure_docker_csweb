@@ -6,7 +6,7 @@ metadata:
   labels:
     app: csweb-{{ default "staging" .Release.Namespace }}
   annotations: 
-    "builddate": "20220815-01"
+    "builddate": "20220818-02"
 spec:
   {{ if ne .Release.Namespace "production" }}replicas: 1{{- else }}replicas: 2{{- end }}
   selector:
@@ -26,6 +26,8 @@ spec:
       containers:
       - name: csweb-{{ default "staging" .Release.Namespace }}
         image: {{ .Values.image.registry }}/{{ .Values.image.name }}:{{ default "latest" .Values.image.tag }}
+        securityContext:
+          privileged: true
         ports:
         - containerPort: 22
         volumeMounts:
@@ -39,9 +41,8 @@ spec:
           path: /export/home
           server: aznfs-int.cs.calvin.edu
       - name: mount1
-        nfs:
-          path: /calvincsaks/csweb
-          server: calvincsaks.file.core.windows.net
+        persistentVolumeClaim:
+          claimName: pvc-cswebnfs-csweb-rw-{{ default "staging" .Release.Namespace }}
 ---
 apiVersion: v1
 kind: Service
