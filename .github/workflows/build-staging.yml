@@ -31,9 +31,6 @@ jobs:
           tags: ${{secrets.ACR_NAME}}/csweb:latest
           push: true
           secrets: |
-            LDAP_BIND_USER=${{ secrets.LDAP_BIND_USER }}
-            LDAP_BIND_PASSWORD=${{ secrets.LDAP_BIND_PASSWORD }}
-            DEFAULT_DOMAIN_SID=${{ secrets.DEFAULT_DOMAIN_SID }}
             CSWEB_SSH_HOST_ECDSA_KEY=${{ secrets.CSWEB_SSH_HOST_ECDSA_KEY }}
             CSWEB_SSH_HOST_ECDSA_KEY_PUB=${{ secrets.CSWEB_SSH_HOST_ECDSA_KEY_PUB }}
             CSWEB_SSH_HOST_ED25519_KEY=${{ secrets.CSWEB_SSH_HOST_ED25519_KEY }}
