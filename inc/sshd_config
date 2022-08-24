@@ -139,8 +139,8 @@ AllowAgentForwarding no
 Banner none
 
 # override default of no subsystems
-#Subsystem sftp /usr/lib/openssh/sftp-server
-Subsystem sftp internal-sftp -u umask=0000
+Subsystem sftp /usr/lib/openssh/sftp-server -u 0000
+#Subsystem sftp internal-sftp -u umask=0000
 
 Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
 KexAlgorithms ecdh-sha2-nistp384,curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
