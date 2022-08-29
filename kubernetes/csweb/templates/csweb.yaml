@@ -6,7 +6,7 @@ metadata:
   labels:
     app: csweb-{{ default "staging" .Release.Namespace }}
   annotations: 
-    "builddate": "20220818-02"
+    "builddate": "20220829-02"
 spec:
   {{ if ne .Release.Namespace "production" }}replicas: 1{{- else }}replicas: 2{{- end }}
   selector:
@@ -42,7 +42,7 @@ spec:
           server: aznfs-int.cs.calvin.edu
       - name: mount1
         persistentVolumeClaim:
-          claimName: pvc-cswebnfs-csweb-rw-{{ default "staging" .Release.Namespace }}
+          claimName: pvc-csweb-nfs-{{ default "staging" .Release.Namespace }}
 ---
 apiVersion: v1
 kind: Service
