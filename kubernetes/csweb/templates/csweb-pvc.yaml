@@ -14,13 +14,10 @@ spec:
     - soft
     - relatime
     - vers=3
-    - namlen=255
-    - proto=tcp
-    - timeo=600
-    - retrans=2
     - sec=sys
+    - acl
   nfs:
-    path: /exports/csweb
+    path: /export/csweb
     server: cswebnfs-int.k8s.cs.calvin.edu
 ---
 # Source: csweb/templates/csweb-pv-pvc.yaml

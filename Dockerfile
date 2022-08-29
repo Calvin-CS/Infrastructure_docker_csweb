@@ -23,6 +23,7 @@ RUN echo "ldap_access_filter = memberOf=CN=CS-Rights-web,OU=Groups,OU=CalvinCS,D
 # Setup of openSSH
 RUN apt update -y && \
     DEBIAN_FRONTEND=noninteractive apt install -y coreutils \
+    acl \
     libuser \
     nfs-common \
     openssh-server \
