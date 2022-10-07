@@ -5,8 +5,6 @@ metadata:
   namespace: {{ default "staging" .Release.Namespace }}
   labels:
     app: csweb-{{ default "staging" .Release.Namespace }}
-  annotations: 
-    "builddate": "20220829-02"
 spec:
   {{ if ne .Release.Namespace "production" }}replicas: 1{{- else }}replicas: 2{{- end }}
   selector:
@@ -14,6 +12,8 @@ spec:
       app: csweb-{{ default "staging" .Release.Namespace }}
   template:
     metadata:
+      annotations:
+        releaseTime: {{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC"| quote }}
       labels:
         app: csweb-{{ default "staging" .Release.Namespace }}
         {{ if ne .Release.Namespace "production" }}name: csweb-{{ .Release.Namespace }}{{- else }}hostname: csweb{{- end }}
