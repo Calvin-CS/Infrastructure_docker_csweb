@@ -82,5 +82,8 @@ RUN rm -f /etc/update-motd.d/10-help-text \
 # umask updates
 COPY --chmod=0644 inc/login.defs /etc/login.defs
 
+# PAM sshd updates
+COPY --chmod=0644 inc/pam_sshd /etc/pam.d/sshd
+
 # Expose the service
 EXPOSE 22/tcp
