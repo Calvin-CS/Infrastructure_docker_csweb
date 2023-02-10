@@ -35,6 +35,8 @@ spec:
           name: mount0
         - mountPath: /var/www
           name: mount1
+        - mountPath: /opt/passwd
+          name: mount2
       volumes:
       - name: mount0
         nfs:
@@ -43,6 +45,10 @@ spec:
       - name: mount1
         persistentVolumeClaim:
           claimName: pvc-csweb-nfs-{{ default "staging" .Release.Namespace }}
+      - name: mount2
+        nfs:
+          path: /export/passwd
+          server: aznfs-int.cs.calvin.edu
 ---
 apiVersion: v1
 kind: Service
