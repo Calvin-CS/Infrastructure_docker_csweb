@@ -14,6 +14,8 @@ COPY s6-overlay/ /etc/s6-overlay
 
 # s6-populate users add script
 COPY --chmod=0755 inc/cs-populate-users.sh /root
+# To disable, uncomment this line:
+RUN rm -f /etc/s6-overlay/s6-rc.d/user/content.d/populateusers
 
 # Install syslogd-overlay
 #ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/syslogd-overlay-noarch.tar.xz /tmp/
