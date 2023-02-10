@@ -3,7 +3,7 @@ LABEL maintainer="Chris Wieringa <cwieri39@calvin.edu>"
 
 # Set versions and platforms
 ARG S6_OVERLAY_VERSION=3.1.3.0
-ARG BUILDDATE=20230210-1
+ARG BUILDDATE=20230210-2
 
 # Do all run commands with bash
 SHELL ["/bin/bash", "-c"] 
@@ -16,9 +16,18 @@ COPY s6-overlay/ /etc/s6-overlay
 COPY --chmod=0755 inc/cs-populate-users.sh /root
 
 # Install syslogd-overlay
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/syslogd-overlay-noarch.tar.xz /tmp/
-RUN tar -C / -Jxpf /tmp/syslogd-overlay-noarch.tar.xz && \
-    rm -f /tmp/syslogd-overlay-noarch.tar.xz
+#ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/syslogd-overlay-noarch.tar.xz /tmp/
+#RUN tar -C / -Jxpf /tmp/syslogd-overlay-noarch.tar.xz && \
+#    rm -f /tmp/syslogd-overlay-noarch.tar.xz
+
+# Install and configure rsyslog
+RUN apt update -y && \
+    DEBIAN_FRONTEND=noninteractive apt install -y rsyslog && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -f /etc/rsyslog.conf
+
+ADD https://raw.githubusercontent.com/Calvin-CS/Infrastructure_configs/main/rsyslog/rsyslog.conf /etc/
+RUN chmod 0644 /etc/rsyslog.conf
 
 # Access control
 RUN echo "ldap_access_filter = memberOf=CN=CS-Rights-web,OU=Groups,OU=CalvinCS,DC=ad,DC=calvin,DC=edu" >> /etc/sssd/sssd.conf
@@ -90,7 +99,8 @@ COPY --chmod=0644 inc/login.defs /etc/login.defs
 COPY --chmod=0644 inc/pam_sshd /etc/pam.d/sshd
 
 # temp debugging of sssd
-RUN sed -i 's/debug_level = 1/debug_level = 8/g' /etc/sssd/sssd.conf
+#RUN sed -i 's/debug_level = 1/debug_level = 8/g' /etc/sssd/sssd.conf
+RUN sed -i 's/ldap_uri = .*/ldap_uri = ldaps:\/\/172\.16\.30\.1:636/g' /etc/sssd/sssd.conf
 
 # Expose the service
 EXPOSE 22/tcp
