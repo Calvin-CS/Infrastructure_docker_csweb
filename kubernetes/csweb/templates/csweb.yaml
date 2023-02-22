@@ -6,7 +6,7 @@ metadata:
   labels:
     app: csweb-{{ default "staging" .Release.Namespace }}
 spec:
-  {{ if ne .Release.Namespace "production" }}replicas: 1{{- else }}replicas: 2{{- end }}
+  replicas: 1
   selector:
     matchLabels:
       app: csweb-{{ default "staging" .Release.Namespace }}
@@ -75,30 +75,30 @@ spec:
   selector:
     app: csweb-{{ default "staging" .Release.Namespace }}
 ---
-{{ if eq .Release.Namespace "production" }}
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: csweb-{{ default "staging" .Release.Namespace }}
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: csweb-{{ default "staging" .Release.Namespace }}
-  minReplicas: 1
-  maxReplicas: 3
-  targetCPUUtilizationPercentage: 80
-  #metrics:
-  #- type: Resource
-  #  resource:
-  #    name: cpu
-  #    target:
-  #      type: Utilization
-  #      averageUtilization: 80
-  #- type: Resource
-  #  resource:
-  #    name: memory
-  #    target:
-  #      type: Utilization
-  #      averageUtilization: 85
-{{- end }}
+# {{ if eq .Release.Namespace "production" }}
+# apiVersion: autoscaling/v1
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: csweb-{{ default "staging" .Release.Namespace }}
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: csweb-{{ default "staging" .Release.Namespace }}
+#   minReplicas: 1
+#   maxReplicas: 3
+#   targetCPUUtilizationPercentage: 80
+#   #metrics:
+#   #- type: Resource
+#   #  resource:
+#   #    name: cpu
+#   #    target:
+#   #      type: Utilization
+#   #      averageUtilization: 80
+#   #- type: Resource
+#   #  resource:
+#   #    name: memory
+#   #    target:
+#   #      type: Utilization
+#   #      averageUtilization: 85
+# {{- end }}
