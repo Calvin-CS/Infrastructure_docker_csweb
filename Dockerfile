@@ -3,7 +3,7 @@ LABEL maintainer="Chris Wieringa <cwieri39@calvin.edu>"
 
 # Set versions and platforms
 ARG S6_OVERLAY_VERSION=3.1.3.0
-ARG BUILDDATE=20230802-1
+ARG BUILDDATE=20230802-2
 
 # Do all run commands with bash
 SHELL ["/bin/bash", "-c"] 
@@ -56,6 +56,7 @@ RUN --mount=type=secret,id=CSWEB_SSH_HOST_RSA_KEY_PUB \
 
 # SSH configuration
 COPY inc/sshd_config /etc/ssh/sshd_config
+COPY inc/lookupsshkeys.sh /usr/local/scripts/lookupsshkeys.sh
 
 # Run directory
 RUN mkdir -p /run/sshd && \
