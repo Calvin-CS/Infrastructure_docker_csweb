@@ -30,13 +30,6 @@ spec:
           privileged: true
         ports:
         - containerPort: 22
-        resources:
-          requests:
-            memory: "100Mi"
-            cpu: "100m" #0.1 CPU
-          limits:
-            memory: "300Mi"
-            cpu: "250m" #0.25 CPU
         volumeMounts:
         - mountPath: /home
           name: mount0
