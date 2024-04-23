@@ -112,7 +112,7 @@ X11Forwarding no
 #X11UseLocalhost yes
 #X11UseLocalhost yes
 #PrintMotd yes
-PrintMotd yes
+PrintMotd no
 #PrintLastLog yes
 #TCPKeepAlive yes
 TCPKeepAlive yes
@@ -121,7 +121,7 @@ TCPKeepAlive yes
 #PermitUserEnvironment no
 #Compression delayed
 #ClientAliveInterval 0
-ClientAliveInterval 180
+ClientAliveInterval 60
 ClientAliveCountMax 2
 #ShowPatchLevel no
 #UseDNS yes
@@ -131,7 +131,7 @@ UseDNS no
 #MaxSessions 10
 
 #PermitTunnel no
-PermitTunnel no
+PermitTunnel yes
 #ChrootDirectory /chroot/student
 #AllowAgentForwarding yes
 AllowAgentForwarding no
