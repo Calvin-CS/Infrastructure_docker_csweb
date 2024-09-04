@@ -18,6 +18,8 @@ spec:
         app: csweb-{{ default "staging" .Release.Namespace }}
         {{ if ne .Release.Namespace "production" }}name: csweb-{{ .Release.Namespace }}{{- else }}hostname: csweb{{- end }}
     spec:
+      nodeSelector:
+        CSInfrastructure: "true"
       {{ if ne .Release.Namespace "production" }}hostname: csweb-{{ .Release.Namespace }}{{- else }}hostname: csweb{{- end }} 
       dnsPolicy: Default
       dnsConfig:
